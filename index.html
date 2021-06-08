@@ -18,6 +18,10 @@
          </li>
        </ul>
      </header>
+     <main v-bind:class="{off:isActive}">
+       <div class="container" v-bind:title="bgTitle"></div>
+       <button id="banner_btn" v-on:click="toggleElem">{{bannerToggleText}}</button>
+     </main>
      <footer id="footer">
        <div class="inner">
          <h3><a href="#">logo</a></h3>
@@ -35,21 +39,55 @@
      let app = new Vue({
        el: '#app',
        data: {
+         active: false,
+         isActive: false,
+         bannerToggleText: 'close',
+         count:0,
+         bgTitle: 'bg02',
          menuList: [
-          {menu: 'company',ahref:'http://naver.com'},
-          {menu:'product',ahref:'http://daum.net'},
-          {menu:'gallery',ahref:'http://facebook.com'},
-          {menu:'location',ahref:'http://instagram.com'}
-        ],
-        fMenuList: [
-        {menu: 'company',ahref:'http://naver.com'},
-        {menu:'product',ahref:'http://daum.net'},
-        {menu:'gallery',ahref:'http://facebook.com'},
-        {menu:'location',ahref:'http://instagram.com'},
-        {menu:'faq',ahref:'http://instagram.com'},
-        {menu:'location',ahref:'http://instagram.com'}
-        ]
-       }
+            {menu: 'company',ahref:'http://naver.com'},
+            {menu:'product',ahref:'http://daum.net'},
+            {menu:'gallery',ahref:'http://facebook.com'},
+            {menu:'location',ahref:'http://instagram.com'}
+          ],
+          fMenuList: [
+            {menu: 'company',ahref:'http://naver.com'},
+            {menu:'product',ahref:'http://daum.net'},
+            {menu:'gallery',ahref:'http://facebook.com'},
+            {menu:'location',ahref:'http://instagram.com'},
+            {menu:'faq',ahref:'http://instagram.com'},
+            {menu:'location',ahref:'http://instagram.com'}
+          ],
+          bgChange:[
+            {bg:'./assets/img/main_banner01.jpg',title: 'bg01'},
+            {bg:'./assets/img/main_banner02.jpg',title: 'bg02' },
+            {bg:'./assets/img/main_banner03.jpg',title: 'bg03'},
+            {bg:'./assets/img/main_banner04.jpg',title: 'bg04' }
+          ]
+        },
+        methods: {
+          toggleElem: function(){
+            // console.log(this.isActive) //false
+            this.isActive = !this.isActive;
+
+            console.log(this.count) //1
+            console.log(this.bgChange.length) //4
+
+            if(this.bannerToggleText == 'close') {
+              this.bannerToggleText = 'open';
+              if(this.count == this.bgChange.length - 1){
+                this.count = 0;
+              } else {
+                this.count++;
+              }
+            } else {
+              this.bannerToggleText = 'close';
+              this.bgTitle = this.bgChange[this.count].title;
+              document.body.querySelector('.container').style.backgroundImage = "url('"+this.bgChange[this.count].bg+"')";
+              console.log(this.bgChange.length);
+            }
+          }
+        }
      });
    </script>
  </body>
